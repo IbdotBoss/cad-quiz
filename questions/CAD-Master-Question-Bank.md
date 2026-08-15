@@ -8,17 +8,17 @@
 
 | Marker | Meaning |
 |---|---|
-| `⭐` | **A sample question ServiceNow publishes in the official exam specification (KB0011498).** Exactly three questions carry this. Nothing else is starred. |
 | `⚠️` | Answer could not be fully settled against current docs — read the `Why` before trusting it. |
 | `Src` column | Where the question came from. Use it to filter. |
 
-**Src vocabulary:** `v2` · `authored` · `docs` · `web+docs` · `web` · `official`
+**Src vocabulary:** `v2` · `authored` · `docs` · `web+docs` · `web`
 
 ### Which sources to trust
 
 `v2` is the newest set, written directly from the Australia-release documentation, and **every answer
 cites the page that settles it** — the one item that could not be settled says so in its `Why`.
-`docs` and `authored` are also documentation-derived. `official` is ServiceNow's own published samples.
+`docs` and `authored` are also documentation-derived; `docs` includes the sample questions ServiceNow
+publishes in the exam specification (KB0011498).
 
 `web` is the weak tier: mined from practice sites, which contradict each other constantly and are
 wrong often enough that every correction found in this project so far came from that pool. Roughly a
@@ -285,13 +285,12 @@ hundred `web` items have never been checked against the documentation — they a
 
 | Src | Questions | Notes |
 |---|---|---|
-| `web` | 117 | Mined from practice sites. The weak tier — see "Which sources to trust" above |
+| `web` | 102 | Mined from practice sites. The weak tier — see "Which sources to trust" above |
 | `authored` | 95 | Written against the ADF course structure and the Australia-release docs |
-| `v2` | 39 | Newest set, written from the documentation; every answer cites its source page |
-| `docs` | 15 | Written directly from the Australia-release documentation |
-| `web+docs` | 11 | Mined, then corrected against the documentation |
-| `official` | 3 | Sample questions ServiceNow publishes in KB0011498 — the only `⭐` items |
-| **Total** | **280** | |
+| `v2` | 41 | Newest set, written from the documentation; every answer cites its source page |
+| `web+docs` | 26 | Mined, then adjudicated against the documentation |
+| `docs` | 18 | Written directly from the documentation, including the three KB0011498 sample questions |
+| **Total** | **282** | |
 
 **No question in this bank is taken from a ServiceNow exam**, and none should be added. Where a topic
 is worth testing, the question is written from the documentation page that defines it, and the answer
@@ -1836,58 +1835,57 @@ cites that page. See `SOURCES.md`.
 
 ---
 
-## Domain 2 — Application User Interface (Official sample items)
+## Domain 2 — Application User Interface (Published sample questions)
 
-> These come from the **official ServiceNow CAD exam specification** (KB0011498, "Sample Questions").
-> They are published by ServiceNow as representative of the real exam — the highest-authority items in
-> this bank. Keys are ServiceNow's own.
+> Reproduced from the sample questions ServiceNow publishes in the exam specification (KB0011498).
+> Keys are ServiceNow's own.
 
-**Q236. ⭐** Which method is valid for `GlideUser()`?
+**Q236.** Which method is valid for `GlideUser()`?
 - A. `getUserName()`
 - B. `getFullName()`
 - C. `getRole()`
 - D. `getRoleExactly()`
 
 ---
-### Domain 2 — Official sample Answers
+### Domain 2 — Published samples, answers
 
 | Q | Answer | Src | Why |
 |---|--------|-----|-----|
-| Q236 ⭐ | B | official | `getFullName()` is a real GlideUser method. **Trap:** `hasRole()` and `hasRoleExactly()` exist, but `getRole()` / `getRoleExactly()` do not — the verb is `has`, not `get`. And the login name is the **property** `g_user.userName`, not a `getUserName()` method. Compare Q110/Q111. |
+| Q236 | B | docs | `getFullName()` is a real GlideUser method. **Trap:** `hasRole()` and `hasRoleExactly()` exist, but `getRole()` / `getRoleExactly()` do not — the verb is `has`, not `get`. And the login name is the **property** `g_user.userName`, not a `getUserName()` method. Compare Q110/Q111. |
 
 ---
 
-## Domain 4 — Application Automation (Official sample items)
+## Domain 4 — Application Automation (Published sample questions)
 
-**Q237. ⭐** How do you configure a Scheduled Job to execute on the last day of every month?
+**Q237.** How do you configure a Scheduled Job to execute on the last day of every month?
 - A. Set the Run field value to Periodically and the Repeat Interval value to 31
 - B. Set the Run field value to Periodically and the Repeat Interval value to Last Day
 - C. Set the Run field value to Monthly and the Day field value to 31
 - D. Set the Run field value to Monthly and the Day field value to Last Day
 
 ---
-### Domain 4 — Official sample Answers
+### Domain 4 — Published samples, answers
 
 | Q | Answer | Src | Why |
 |---|--------|-----|-----|
-| Q237 ⭐ | C | official | **Monthly + Day 31.** ServiceNow clamps the day to the end of shorter months, so 31 means "last day" for every month. **Trap:** D reads more naturally in English, but the Day field takes a number — there is no "Last Day" value. Periodically counts a fixed interval and drifts against calendar months. |
+| Q237 | C | docs | **Monthly + Day 31.** ServiceNow clamps the day to the end of shorter months, so 31 means "last day" for every month. **Trap:** D reads more naturally in English, but the Day field takes a number — there is no "Last Day" value. Periodically counts a fixed interval and drifts against calendar months. |
 
 ---
 
-## Domain 6 — Managing Applications (Official sample items)
+## Domain 6 — Managing Applications (Published sample questions)
 
-**Q238. ⭐** When managing global application files, which action is allowed?
+**Q238.** When managing global application files, which action is allowed?
 - A. Moving application files into or out of the scoped application
 - B. Adding files from global scope to a global application
 - C. Changing the scope of a global application
 - D. Removing an application's scope
 
 ---
-### Domain 6 — Official sample Answers
+### Domain 6 — Published samples, answers
 
 | Q | Answer | Src | Why |
 |---|--------|-----|-----|
-| Q238 ⭐ | B | official | Global-to-global file moves are permitted. **The other three are all things scope exists to prevent:** you cannot drag files across a scope boundary (A), cannot re-scope an existing application (C), and cannot strip an application's scope (D). Useful anchor — scope is assigned at creation and is effectively permanent. |
+| Q238 | B | docs | Global-to-global file moves are permitted. **The other three are all things scope exists to prevent:** you cannot drag files across a scope boundary (A), cannot re-scope an existing application (C), and cannot strip an application's scope (D). Useful anchor — scope is assigned at creation and is effectively permanent. |
 
 ---
 

@@ -62,27 +62,26 @@ HTML = HERE / "index.html"
 with open(SRC, encoding="utf-8") as f:
     lines = f.read().splitlines()
 
-# ---- Pass 1: answer rows -> qid -> (letters, src, why, starred) ----
+# ---- Pass 1: answer rows -> qid -> (letters, src, why) ----
 answers = {}
 ans_row = re.compile(
-    r'^\|\s*Q(\d+)\s*(⭐)?\s*\|\s*([^|]+?)\s*\|\s*([^|]*?)\s*\|\s*(.+?)\s*\|\s*$'
+    r'^\|\s*Q(\d+)\s*\|\s*([^|]+?)\s*\|\s*([^|]*?)\s*\|\s*(.+?)\s*\|\s*$'
 )
 for ln in lines:
     m = ans_row.match(ln)
     if not m:
         continue
     qid = int(m.group(1))
-    starred = bool(m.group(2))
-    letters = re.findall(r'\b([A-G])\b', m.group(3).strip())
+    letters = re.findall(r'\b([A-G])\b', m.group(2).strip())
     if not letters:
         continue
-    src = m.group(4).strip().lower() or "unknown"
-    why = m.group(5).strip().replace('**', '')
-    answers[qid] = (letters, src, why, starred)
+    src = m.group(3).strip().lower() or "unknown"
+    why = m.group(4).strip().replace('**', '')
+    answers[qid] = (letters, src, why)
 
 # ---- Pass 2: question blocks ----
 domain_hdr = re.compile(r'^##\s+Domain\s+(\d+)\b')
-q_hdr = re.compile(r'^\*\*Q(\d+)\.\s*(⭐)?\*\*\s*(.*)$')
+q_hdr = re.compile(r'^\*\*Q(\d+)\.\*\*\s*(.*)$')
 opt_line = re.compile(r'^\s*-\s*([A-G])\.\s+(.*)$')
 
 questions = []
@@ -98,8 +97,7 @@ while i < n:
     qm = q_hdr.match(ln)
     if qm:
         qid = int(qm.group(1))
-        starred = bool(qm.group(2))
-        stem = qm.group(3).strip()
+        stem = qm.group(2).strip()
         opts, letters = [], []
         j = i + 1
         while j < n:
@@ -126,7 +124,7 @@ while i < n:
         stem = stem.replace('**', '').strip()
         questions.append({
             'qid': qid, 'd': cur_domain, 'stem': stem,
-            'opts': opts, 'letters': letters, 'starred': starred,
+            'opts': opts, 'letters': letters,
         })
         i = j
         continue
@@ -145,7 +143,7 @@ for q in sorted(questions, key=lambda x: x['qid']):
     if qid not in answers:
         errors.append(f"Q{qid}: no answer row found")
         continue
-    letters, src, why, ans_star = answers[qid]
+    letters, src, why = answers[qid]
     ans_idx = sorted(LET2IDX[c] for c in letters)
     if len(q['opts']) < 2:
         errors.append(f"Q{qid}: only {len(q['opts'])} options")
@@ -157,7 +155,6 @@ for q in sorted(questions, key=lambda x: x['qid']):
     out.append({
         'id': qid, 'd': q['d'], 'q': q['stem'], 'opts': q['opts'],
         'ans': ans_idx, 'multi': len(ans_idx) > 1,
-        'real': bool(q['starred'] or ans_star),
         'src': src, 'exp': why,
     })
 
@@ -172,7 +169,6 @@ for d in range(1, 7):
     print(f"  D{d}: {dc.get(d, 0)}", file=sys.stderr)
 sc = Counter(o['src'] for o in out)
 print("  by src: " + ", ".join(f"{k}={v}" for k, v in sorted(sc.items())), file=sys.stderr)
-print(f"  real(*): {sum(1 for o in out if o['real'])}", file=sys.stderr)
 print(f"  multi:   {sum(1 for o in out if o['multi'])}", file=sys.stderr)
 if errors:
     print("ERRORS:", file=sys.stderr)
@@ -183,13 +179,12 @@ print("  no validation errors", file=sys.stderr)
 
 # ---- Emit ----
 parts = [
-    "{id:%d,d:%d,q:%s,opts:%s,ans:%s,multi:%s,real:%s,src:%s,exp:%s}" % (
+    "{id:%d,d:%d,q:%s,opts:%s,ans:%s,multi:%s,src:%s,exp:%s}" % (
         o['id'], o['d'],
         json.dumps(o['q'], ensure_ascii=False),
         json.dumps(o['opts'], ensure_ascii=False),
         json.dumps(o['ans']),
         'true' if o['multi'] else 'false',
-        'true' if o['real'] else 'false',
         json.dumps(o['src']),
         json.dumps(o['exp'], ensure_ascii=False),
     )

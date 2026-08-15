@@ -1,23 +1,21 @@
 # Sources and Answer-Dispute Log
 
-Built 2026-08-11. Last revised 2026-08-14. Companion to `CAD-Master-Question-Bank.md`.
+Built 2026-08-11. Last revised 2026-08-15. Companion to `CAD-Master-Question-Bank.md`.
 
 ---
 
-## Where the 280 questions came from
+## Where the 282 questions came from
 
 | Src tag | Count | Origin |
 |---|---|---|
-| `web` | 117 | Free/preview tiers of practice sites (list below) |
+| `web` | 102 | Free/preview tiers of practice sites (list below) — the weak tier |
 | `authored` | 95 | Written against the ADF course structure and the local ServiceNow docs |
-| `v2` | 39 | **Newest set** — written directly from the Australia-release documentation to fill measured blueprint gaps |
-| `docs` | 15 | Written directly from the local Australia-release documentation |
-| `web+docs` | 11 | Mined from the web, answer corrected against docs |
-| `official` | 3 | **Sample questions published in the official CAD exam specification (KB0011498)** |
+| `v2` | 41 | **Newest set** — written directly from the Australia-release documentation to fill measured blueprint gaps |
+| `web+docs` | 26 | Mined from the web, then adjudicated against the documentation |
+| `docs` | 18 | Written directly from the documentation, including the three sample questions published in the exam specification (KB0011498) |
 
-**`⭐` now means one thing only: reproduced from the official exam specification.** ServiceNow publishes
-those three samples itself, so there is no disclosure question about them. Nothing else in the bank
-carries the marker.
+The three sample questions ServiceNow publishes in the exam specification are tagged `docs` like any
+other documentation-derived item, and keep ServiceNow's own keys.
 
 ### The standing rule for this bank
 
@@ -80,7 +78,7 @@ folder name is misleading, because the product itself is current.
 
 ---
 
-## The v2 set (39 questions, added 2026-08-14)
+## The v2 set (41 questions)
 
 Written to fill the sub-objectives KB0011498 names explicitly but the bank barely tested. Counts before:
 
@@ -93,6 +91,7 @@ Written to fill the sub-objectives KB0011498 names explicitly but the bank barel
 | Events + Scheduled Script Executions (D4) | 3 | 6 |
 | Script Includes (D4) | 6 | 5 |
 | Send and receive email (D4) | 7 | 4 |
+| Client-side API surface (D2) — added after the audit found the bank's GlideRecord claim wrong | — | 2 |
 
 **Rule for this set: every answer cites the documentation file that settles it**, either directly or by
 chaining to the row above ("Same doc: …"). A build-time check enforces this.
@@ -184,19 +183,18 @@ Three further facts from the official spec that change how this bank should be r
 2. **Multi-select gives no partial credit**, which matches this bank's all-or-nothing scoring.
 3. **ServiceNow explicitly says study material posted elsewhere online is not official and should not
    be used to prepare.** That includes every dump site mined here. It is the strongest argument for the
-   verification passes in this document, and for preferring `v2`, `authored`, `docs` and `official`
-   over `web`.
+   verification passes in this document, and for preferring `v2`, `authored` and `docs` over `web`.
 
 The spec also publishes **four sample questions**. Three are reproduced with ServiceNow's own keys and
-tagged `official` — the highest-authority items in this bank. The fourth was published without its
-answer options, so it appears as an `authored` question on the same topic rather than a guess.
+tagged `docs`. The fourth was published without its answer options, so it appears as an `authored`
+question on the same topic rather than a guess.
 
 ## Coverage against the blueprint
 
 | Domain | Weight | Questions | Exam sim draw |
 |---|---|---|---|
 | 1 Designing and Creating an Application | 20% | 46 | 12 |
-| 2 Application User Interface | 20% | 57 | 12 |
+| 2 Application User Interface | 20% | 59 | 12 |
 | 3 Security and Restricting Access | 20% | 44 | 12 |
 | 4 Application Automation | 20% | 75 | 12 |
 | 5 Working with External Data | 10% | 35 | 6 |
@@ -208,10 +206,18 @@ it draws 12/12/12/12/6/6 regardless of how the pool is distributed.
 
 ## Known gap — the largest remaining risk
 
-**128 questions (117 `web` + 11 `web+docs`) came from dump sites, and only about 24 carry a `⚠️`.**
-The other ~100 are *unquestioned*, not *verified* — nobody has yet checked them against the
-documentation. **Every answer correction found across all sessions so far came from that pool.**
-Auditing it, starting with Domains 3 and 4, is the highest-value remaining work on this bank.
+All questions originally mined from practice sites start as `web`. As each is adjudicated against the
+documentation it is retagged **`web+docs`** — so the two counts are a progress bar:
+
+| | Count |
+|---|---|
+| `web+docs` — checked against the documentation | 26 |
+| `web` — **not yet checked** | 102 |
+
+The 102 are *unquestioned*, not *verified*. They are concentrated in **Domain 4 (43)** and
+**Domain 3 (19)**. **Every answer correction found in this project so far came from that pool** —
+three outright wrong keys, plus several correct answers carrying false reasoning, which is the more
+insidious failure. Working through the remainder is the highest-value job left on this bank.
 
 ---
 

@@ -13,7 +13,7 @@ The real exam is 60 questions in 90 minutes. ServiceNow does **not** publish the
 | | |
 |---|---|
 | [`index.html`](index.html) | The quiz app. One file, no build step, no dependencies — works offline by double-clicking. |
-| [`questions/CAD-Master-Question-Bank.md`](questions/CAD-Master-Question-Bank.md) | 280 questions across the six blueprint domains, each with an explanation of why the distractors are wrong. |
+| [`questions/CAD-Master-Question-Bank.md`](questions/CAD-Master-Question-Bank.md) | 282 questions across the six blueprint domains, each with an explanation of why the distractors are wrong. |
 | [`questions/CAD-Trap-Sheet.md`](questions/CAD-Trap-Sheet.md) | The X-vs-Y confusions that actually cost marks, with the one rule that separates each pair. Read this last. |
 | [`questions/SOURCES.md`](questions/SOURCES.md) | Provenance, plus a log of every answer dispute and how it was resolved. |
 | [`build-questions.py`](build-questions.py) | Parses the markdown bank into the app. Fails loudly on malformed data. |
@@ -22,7 +22,7 @@ The real exam is 60 questions in 90 minutes. ServiceNow does **not** publish the
 
 - **Study** — everything matching your filters, immediate feedback
 - **Exam simulation** — 60 questions, 90-minute timer, drawn to blueprint weight, no feedback until the end
-- **New questions** — the newest set (39), written from the ServiceNow documentation to cover the blueprint topics the older bank was thin on. Kept out of Study and Exam by default so it can be drilled on its own; turn on the **new (v2)** source chip to mix it in
+- **New questions** — the newest set (41), written from the ServiceNow documentation to cover the blueprint topics the older bank was thin on. Kept out of Study and Exam by default so it can be drilled on its own; turn on the **new (v2)** source chip to mix it in
 - **My wrong answers** — accumulates as you drill, clears as you get them right
 
 Filter by domain and by source, and choose **Bank order** or **Shuffled** (Study only — the other
@@ -75,14 +75,16 @@ to paste isn't lost behind the new tab.
 
 | Domain | Weight | Questions |
 |---|---|---|
-| 1 · Designing and Creating an Application | 20% | 50 |
-| 2 · Application User Interface | 20% | 45 |
-| 3 · Security and Restricting Access | 20% | 46 |
-| 4 · Application Automation | 20% | 55 |
+| 1 · Designing and Creating an Application | 20% | 46 |
+| 2 · Application User Interface | 20% | 59 |
+| 3 · Security and Restricting Access | 20% | 44 |
+| 4 · Application Automation | 20% | 75 |
 | 5 · Working with External Data | 10% | 35 |
 | 6 · Managing Applications | 10% | 23 |
 
 Weights are the **official blueprint** (KB0011498), confirmed against the published exam specification. Several prep sites advertise a different split; they are wrong.
+
+The bank is deliberately not quota'd to those weights — it is a study pool, and depth is worth more where there is more script detail. The **exam simulation** is what enforces the weighting, drawing 12/12/12/12/6/6 regardless.
 
 ## Two things to know about the answers
 
@@ -95,8 +97,6 @@ Pack/App Package* rather than *Plugin*. The ACL evaluation-order question alone 
 four possible ways by four different sources. `SOURCES.md` has the receipts.
 
 **Every answer in the newest set cites the documentation page that settles it**, and the one item that could *not* be settled from the docs says so in its explanation rather than quietly asserting an answer.
-
-`⭐` marks the three sample questions ServiceNow publishes in the exam specification.
 
 ## Rebuilding
 
@@ -126,7 +126,7 @@ Add the question and its answer row to the bank, then rebuild. Format:
 | Q42 | A & C | authored | Studio scaffolds `<scope>_user` and `<scope>_admin`. B and D are never generated. |
 ```
 
-Answer rows may live anywhere in the domain. `Src` drives the app's source filter; `⭐` after the number marks one of the three official exam-specification samples.
+Answer rows may live anywhere in the domain. `Src` drives the app's source filter.
 
 The bank and its companion documents are authored in a working folder and **copied forward** into `questions/` by the build, so the two copies cannot drift. The build **fails** if any file under `questions/` contains a local filesystem path, because that folder is published.
 
@@ -136,6 +136,6 @@ The bank and its companion documents are authored in a working folder and **copi
 
 Study aid, unofficial, not affiliated with or endorsed by ServiceNow. ServiceNow, and the certification and release names used here, belong to ServiceNow, Inc.
 
-Questions are either written for this project, derived from public product documentation, or drawn from publicly reachable practice sites. **No question here is taken from a ServiceNow exam.** The three starred items are the sample questions ServiceNow publishes in its own exam specification.
+Questions are either written for this project, derived from public product documentation, or drawn from publicly reachable practice sites. **No question here is taken from a ServiceNow exam.** The three questions taken from ServiceNow's own published exam specification are tagged `docs` alongside the other documentation-derived items.
 
 The ServiceNow certification agreement prohibits disclosing exam content — **do not add exam questions to this repository**, and note that paraphrasing one still discloses it; rewording is not a workaround. Where a topic is worth testing, write the question from the documentation page that defines it and cite that page. Use this to learn the material, not to shortcut it.
