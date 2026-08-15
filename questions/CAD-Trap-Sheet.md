@@ -36,7 +36,8 @@ ServiceNow multi-select questions almost always include one option that is a rea
 - So `gs.hasRoleExactly()` **does not exist** — in a Business Rule the answer is always `gs.hasRole('admin')`. `g_form` has no role methods at all.
 - `g_user.hasRole('x')` returns **true for admin too**; `g_user.hasRoleExactly('x')` does not. `hasRoleOnly` does not exist.
 - In an **ACL script**: `gs.hasRole()` and `current.isNewRecord()`. Note **`isNewRecord()`**, not `isNew()`.
-- `gs.getUserName()` = login name. `gs.getUserDisplayName()` = First Last. `gs.getUserSysID()` = sys_id.
+- `gs.getUserName()` = login name. `gs.getUserDisplayName()` = First Last. **`gs.getUserID()` = sys_id.**
+- **`gs.getUserSysID()` does not exist.** The whole set is `getUser()`, `getUserDisplayName()`, `getUserID()`, `getUserName()` — plus `getUserNameByUserID()` in global scope only. Same species of trap as `gs.hasRoleExactly()`: a name that reads right and was never real.
 
 ---
 
@@ -61,9 +62,27 @@ ServiceNow multi-select questions almost always include one option that is a rea
 **Order within one ACL:** Role → Security Attribute → Condition → Script.
 ⚠️ Legacy course material taught "**Conditions, Roles, Script**" and dumps still key it that way. Current docs say role-first. **If a role-first option is offered, take it.**
 
-**Matching order across ACLs:** most specific → most generic.
+**Matching order across ACLs:** most specific → most generic. The documented sequences are exact:
 
-**Both must pass:** the matching table-level rule **and** the matching field-level rule.
+- **Table rules:** `incident` → parent table `task` → `*`
+- **Field rules:** `incident.number` → `task.number` → `*.number` → `incident.*` → `task.*` → `*.*`
+
+So **`table.*` is a *field* rule** — the catch-all for fields on that table, evaluated *fourth*, after
+`*.field`. The record-level rule is `table` on its own (shown as `.None`).
+
+**The first successful field ACL stops field-level processing.** Once a field rule passes, no other
+field rule is consulted for that field.
+
+**Both must pass:** the matching table-level rule **and** the matching field-level rule. Fail the
+table rule and you are denied **every** field, even ones whose field rule you would have passed.
+That single sentence is what separates Q107 from Q217 — check whether a `table.*` row exists before
+working out which fields are readable.
+
+**Operation is `write`, not `update`.** Full documented record-operation list: `create`, `read`,
+`write`, `delete`, `execute` (client-callable script includes and REST endpoints), `list_edit`,
+`report_on`, `report_view`, `add_to_list`, `personalize_choices`, `save_as_template`, `query_match`,
+`query_range`, `edit_task_relations`, `edit_ci_relations`. Note **`add_to_list` supports neither
+conditions nor scripts.**
 
 | Situation | Result |
 |---|---|

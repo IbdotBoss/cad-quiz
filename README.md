@@ -94,9 +94,9 @@ measurably *worse* than average — one keyed “what do you install to add func
 Pack/App Package* rather than *Plugin*. The ACL evaluation-order question alone has now been keyed all
 four possible ways by four different sources. `SOURCES.md` has the receipts.
 
-**`⭐` means one thing: published by ServiceNow in the official exam specification.** Exactly three questions carry it — the sample items ServiceNow publishes itself. Nothing else is starred, and no question is starred because a website claimed it came from a real exam; that claim is a sales label, not evidence.
-
 **Every answer in the newest set cites the documentation page that settles it**, and the one item that could *not* be settled from the docs says so in its explanation rather than quietly asserting an answer.
+
+`⭐` marks the three sample questions ServiceNow publishes in the exam specification.
 
 ## Rebuilding
 
