@@ -678,11 +678,11 @@ cites that page. See `SOURCES.md`.
 - C. Display an empty homepage for the application
 - D. Display a list of all records from the table
 
-**Q97.** Which class is NOT part of the client-side scoped APIs?
-- A. GlideDialogWindow
-- B. GlideAjax
-- C. GlideRecord
-- D. GlideForm
+**Q97.** Which of these is **not** available to a client-side script?
+- A. GlideAjax
+- B. GlideForm
+- C. GlideUser
+- D. GlideSystem
 
 ---
 ### Domain 2 — Practice Answers
@@ -704,7 +704,7 @@ cites that page. See `SOURCES.md`.
 | Q77 | C | authored | `current` is the record being created. |
 | Q78 | B | authored | Producer variables are read from the `producer` object. Q77/Q78 pair up: `current` = the record, `producer` = the user's input. Mixing them is the intended error. |
 | Q79 | A | web | Record Producers are catalog artifacts, so they use **Catalog** Client Scripts and **Catalog** UI Policies — not the ordinary form-based ones. |
-| Q80 | C | web | Open the table record and use the **Add to Service Catalog** related link — it generates the producer and its variables for you. |
+| Q80 | C | web+docs | **Add to Service Catalog**, verbatim from `servicenow-platform/service-catalog/t_CreatingRecordProducersFromTables.md`: "Navigate to **All > System Definition > Tables** and open the table record… Under **Related Links**, select **Add to Service Catalog**." You then pick the fields and their order, and the producer plus its variables are generated for you. |
 | Q81 | A & B | authored | Form buttons and list context-menu items are both UI Actions. C is a Data Policy job; D is a Scheduled Script Execution. |
 | Q82 | D | web+docs | **Form choice** is not a UI Action type. List choice, Form button and List banner button all are. ⚠️ Heavily contested: mined sources keyed this as "List choice" and also listed "Form choice" as *valid* in a different item. The `sys_ui_action` table has List choice; it has no Form choice. |
 | Q83 | A | authored | Views are named field/section arrangements and can vary by role or device. They are presentation only — the schema is untouched. |
@@ -715,13 +715,13 @@ cites that page. See `SOURCES.md`.
 | Q88 | A & B | web | `g_form.addInfoMessage()` and `jslog()` are client-side. **`gs.*` is server-side and unavailable in a client script** — that is why gs.log() is the stock wrong answer in every version of this item. |
 | Q89 | C | authored | Only an **ACL** enforces server-side and therefore survives REST access. UI Policy, Client Script and form layout are cosmetic — the highest-value security instinct on the exam. |
 | Q90 | C | web | The **child table only**. Labels are per-table overrides, so the parent and its other children are unaffected. |
-| Q91 | A | web | Fields are dragged from the **Fields** tab; new fields are created by dragging a data type from the **Field Types** tab. Sections also come from Field Types, but the keyed correct statement across sources is the Fields-tab drag. Removing a field from the layout never deletes it from the table (C). |
+| Q91 | A | web+docs | The field navigator has exactly two tabs (`platform-administration/c_FormDesign.md`): **Fields** — "a list of **existing** fields you can add to the current form" — and **Field Types** — "a list of field types… Adding a field type to the form layout **creates fields** in the selected table when the form layout is saved." So A is right, and D is wrong because new fields *can* be created here. C is wrong: removing a field from the layout never deletes it from the table. ⚠️ **Correction: an earlier version of this note claimed sections also come from the Field Types tab. They do not** — a section is added with the **(+) button beside the section label**, then dragged only to reorder. That is why B fails. |
 | Q92 | D | web | Adding a field to a table does **not** add it to the list view — list layout is configured separately. |
 | Q93 | C | web | Inherited fields cannot be deleted from a child table; they belong to the parent. Compare Q42/Q55 — inheritance is a benefit and a constraint. |
 | Q94 | D | web | Reference field. |
 | Q95 | A | web | **Annotations** are the supported way to put instructional text on a form. |
 | Q96 | D | web | The generated module displays a **list of all records** from the table. |
-| Q97 | C | web | **GlideRecord is server-side.** GlideDialogWindow, GlideAjax and GlideForm are all client-side. Using GlideRecord in a client script is both a wrong answer here and a real-world anti-pattern. |
+| Q97 | D | web+docs | **GlideSystem (`gs`) is server-only** — it never appears in the client API listing. GlideAjax, GlideForm and GlideUser are all listed as Client APIs in `api-reference/api-client.md`. ⚠️ **This question was rewritten after an audit found the previous version wrong.** It asked which class is "NOT part of the client-side scoped APIs" and keyed **GlideRecord** — but `api-client.md` explicitly lists "**GlideRecord - Client**… enables the use of some GlideRecord functionality in client-side scripts, such as client scripts and UI policy scripts." Client-side GlideRecord **exists**; it is *discouraged* for performance, which is not the same as unavailable. See Q294. |
 
 ---
 
@@ -1280,8 +1280,8 @@ cites that page. See `SOURCES.md`.
 | Q163 | B | authored | With no coalesce field every row is treated as new, so each run **inserts duplicates**. This is the single most common real-world import mistake and a recurring exam item. |
 | Q164 | D | web | ServiceNow is the **consumer** when it requests data. Consumer = calls out; provider = serves. |
 | Q165 | B | web | The URI of the data to be accessed. |
-| Q166 | D | web | It generates **sample code for ServiceNow REST requests** and lets you test them. A is the tempting misread — it is not a sandbox for third-party APIs. |
-| Q167 | B | web | `${variable_name}`. |
+| Q166 | D | web+docs | `api-reference/rest-api-explorer/use-REST-API-Explorer.md`: it "allows you to **discover ServiceNow REST APIs**, quickly **construct and execute requests**, and view responses… within your browser", and generates the matching sample code. **A is the tempting misread** — it targets *ServiceNow's own* APIs, not third-party ones. Two extra facts: it needs the **`rest_api_explorer`** role, and per `api-reference.md` it is also how you *discover* which APIs exist before writing anything. |
+| Q167 | B | web | **`${variable_name}`.** ⚠️ **Not settleable from the local docs clone** — the classic SOAP/REST Message variable-substitution page is not included in it. The answer is the long-standing documented syntax and the three distractors are each clearly wrong (`current.x` is server script, `<x>` is XML markup, `.do?WSDL` is the WSDL endpoint), so it is kept — but treat the syntax as sourced from course material rather than from this clone. |
 | Q168 | A | authored | GET is the read-only verb. |
 | Q169 | B | authored | A **Scripted REST API** — custom endpoint, custom logic. An Outbound REST Message goes the other direction. |
 | Q170 | A & B | authored | Inbound = they call us; outbound = we call them. Anchor it to Q164: consumer/outbound is ServiceNow reaching out. |
@@ -1402,17 +1402,17 @@ cites that page. See `SOURCES.md`.
 |---|--------|-----|-----|
 | Q174 | B | web | There is **no Copy button** that installs an application. Repository, Share and Store are all real distribution routes. |
 | Q175 | A, C & D | web | Store, application repository, and update set. Local drives and spreadsheets are not publication targets. |
-| Q176 | C | web | A database containing **custom** applications — your organisation's own apps, as distinct from the Store (third-party). |
+| Q176 | C | web+docs | **A database containing custom applications.** `application-repository-self-hosted/app-repo.md`: "a central repository for all scoped applications that are published by all ServiceNow customers." ⚠️ **Correcting an earlier oversimplification here:** the Repository is not a rival to the Store — `manage-apps.md` says "The Application Repository is **part of the ServiceNow Store**", with storage partitioned so "customers cannot see or access other customers' published applications." So: same infrastructure, your org's apps only. D is the trap — a Git repository is a different thing entirely. |
 | Q177 | C | web | The **Application Files** related list on the application record is the definitive artifact inventory. |
 | Q178 | B | web | Update sets. Contrast with the Application Repository (Q62), which distributes versioned applications rather than moving config between environments. |
-| Q179 | A, C & E | web | User name, password, URL. **Application name is not required** — that is the distractor, and it is also the answer to the inverted "which is NOT required" phrasing. Note "URI" is offered as a near-miss for "URL". |
-| Q180 | B | web | Through a **MID Server**. |
-| Q181 | C | web | **Stash** parks uncommitted local changes so you can switch context and reapply them later. A *branch* is a parallel line of development and a *tag* marks a point in history — neither shelves work in progress. |
+| Q179 | A, C & E | web+docs | Best of the options offered, and **Application name is not required** — that is the distractor, and also the answer to the inverted "which is NOT required" phrasing. "URI" is a near-miss for "URL". ⚠️ **The current dialog is framed differently from this question.** `servicenow-studio-classic/t_LinkAnApplicationToSourceControl.md` lists the fields as **Network protocol** (HTTPS or SSH), **URL**, **Credential**, **Branch**, **MID Server Name**, **Default email**, **Commit Comment** — the username/password pair now lives inside a **Credential record** (Basic Auth for HTTPS, SSH private key for SSH), not as loose fields. Two facts worth carrying: an **access token** can replace the password, and "**all application developers on the instance share a single set of repository credentials**." |
+| Q180 | B | web+docs | **Through a MID Server**, stated outright in `t_LinkAnApplicationToSourceControl.md`: "Linking or importing an application through a MID Server **enables access to repositories behind a firewall**." Git traffic is packaged as a `.bundle` file and relayed via the MID Server (`tips-source-control-midserver.md`). **Trap on C:** access tokens are real — the docs recommend one *instead of a password* — but a token does not solve a network-reachability problem. |
+| Q181 | C | web+docs | **Stash.** `servicenow-studio-classic/r_AvailableSourceControlOperations.md` defines **Stash Local Changes** as "Removes and saves local changes for later work", with **Manage Stashes** to "apply or delete stashed changes". A *branch* is a parallel line of development and a *tag* marks a point in history — neither shelves work in progress. **Bonus fact from the same table:** only **Create Branch** and **Create Tag** are available from *both* Studio and the Git repository; everything else listed is Studio-only or repository-only. |
 | Q182 | B | web | Records are shipped with an application only when added via **Create Application Files**. Table extension, numbering and clone-exclusion have nothing to do with it. |
 | Q183 | D | web+docs | **Confirmed against the docs:** "Developer permissions are available only for scoped apps, **not global apps**" (`delegated-development-and-deployment/t_AddADeveloper.md`). So granting non-admins the ability to develop *global* applications is the incorrect statement. The other three are documented controls. A dump keyed A; it is wrong. |
 | Q184 | D | web | The **Publish** button. |
-| Q185 | A | web | All custom scopes **plus Global**. B is wrong because baseline apps like Incident are not scoped applications in the picker sense. |
-| Q186 | D | web | Selecting an application **sets the Application Scope** — which is exactly why Q64 (wrong scope in the status bar) is a real hazard. |
+| Q185 | A | web+docs | **All custom scopes plus Global.** `application-development/c_ApplicationPicker.md`: the picker opens "a list of **application scopes** that you have access to" — scopes, not applications. Incident lives *in* the Global scope rather than being a scope of its own, which is why B fails. |
+| Q186 | D | web+docs | **Selecting an application sets the Application Scope.** Same doc: the picker "enables application developers to view and select the **application scope where their changes apply**", and `c_ApplicationContext.md` adds that new records are "automatically assign[ed] to the currently selected application in the application picker". **Concrete tell worth memorising:** when the scope is set to anything non-Global, the picker icon shows a **red ring**. |
 | Q187 | A & B | web+docs | ATF and Flow Designer work with global applications. **Delegated Development is documented as scoped-only** — "Developer permissions are available only for scoped apps, not global apps" (`t_AddADeveloper.md`) — and scope protection policies are scoped by definition, so C and D are both out. |
 | Q188 | A, B, D & F | web | Business problem, data in/out, process steps, users/stakeholders. Project schedule, database capacity and licensing are project-management concerns, not application design inputs. |
 | Q189 | B | web | Scoping does **not** track who developed an application. It provides namespacing, artifact relationships and cross-scope controls. |
@@ -2127,6 +2127,18 @@ cites that page. See `SOURCES.md`.
 - C. Each step is isolated and cannot see anything an earlier step did
 - D. Test steps can only run server-side
 
+**Q294.** A developer states that GlideRecord cannot be used in a client script at all. Is that correct?
+- A. Correct — GlideRecord is server-side only, and a client script cannot reference it
+- B. Incorrect — a client-side GlideRecord API exists, though GlideAjax is preferred for performance
+- C. Correct — client scripts must use GlideForm for every data operation
+- D. Incorrect — client-side GlideRecord is the recommended way to query the server from a form
+
+**Q295.** Which client-side API is documented as deprecated?
+- A. GlideForm
+- B. GlideAjax
+- C. GlideDialogWindow
+- D. GlideUser
+
 ---
 ### Domain 2 — New questions (v2), answers
 
@@ -2150,6 +2162,8 @@ cites that page. See `SOURCES.md`.
 | Q270 | A | v2 | `atf-breakpoints-rollback.md`: "Breakpoints allow you to pause your test at any step of a test run in order to troubleshoot and test authoring." |
 | Q271 | B | v2 | `atf-build-overview.md`: "Some steps frequently occur in the same sequence in many different tests, so you can add a predefined list of steps (template) to an automated test." **Trap on D:** a test suite groups whole tests; it does not share steps between them. |
 | Q272 | A & B | v2 | `atf-build-overview.md` names both: "Passing data from one automated test step to another", and for tests involving form steps, "View results screenshots from an automated test." C contradicts A directly. |
+| Q294 | B | v2 | **A client-side GlideRecord API exists.** `api-reference/api-client.md` lists "GlideRecord - Client — The GlideRecord API provides methods that perform database operations. This API enables the use of **some** GlideRecord functionality in client-side scripts, such as client scripts and UI policy scripts." Note *some* — it is a reduced surface. **The discrimination that actually matters:** it exists, but a synchronous client-side query blocks form rendering, so **GlideAjax** plus a client-callable Script Include is the recommended route. D overshoots in the other direction by calling it *recommended*. This bank previously asserted A and was wrong — see Q97. |
+| Q295 | C | v2 | **GlideDialogWindow.** `api-reference/api-client.md` labels it in the listing itself: "GlideDialogWindow - Client **\(deprecated\)**". GlideForm, GlideAjax and GlideUser carry no such marker. |
 
 ---
 

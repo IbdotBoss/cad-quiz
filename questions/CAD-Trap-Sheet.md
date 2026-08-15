@@ -31,7 +31,8 @@ ServiceNow multi-select questions almost always include one option that is a rea
 
 **Rules that follow:**
 - `gs.*` in a client script → **always wrong**. `gs.log()` is the stock wrong answer for "client debugging strategy".
-- `GlideRecord` is **server-side**. It is the odd one out among GlideForm / GlideAjax / GlideDialogWindow.
+- **`GlideRecord` is not the client/server tell — `gs` is.** GlideSystem never appears in the client API listing. A **client-side GlideRecord API does exist** ("enables the use of *some* GlideRecord functionality in client-side scripts, such as client scripts and UI policy scripts"); it is *discouraged* for performance, which is not the same as unavailable. Reach the server with **GlideAjax** + a client-callable Script Include.
+- **`GlideDialogWindow` is documented as deprecated.** If a question asks which client API is deprecated, that is the one.
 - **The two role APIs are not symmetric.** Client `g_user` has `hasRole()`, `hasRoleExactly()`, `hasRoleFromList()`, `hasRoles()`. Server `gs` has **only `hasRole()`**.
 - So `gs.hasRoleExactly()` **does not exist** — in a Business Rule the answer is always `gs.hasRole('admin')`. `g_form` has no role methods at all.
 - `g_user.hasRole('x')` returns **true for admin too**; `g_user.hasRoleExactly('x')` does not. `hasRoleOnly` does not exist.
