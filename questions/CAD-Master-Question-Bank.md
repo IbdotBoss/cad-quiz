@@ -1112,18 +1112,6 @@ cites that page. See `SOURCES.md`.
 - C. Service Level Agreements
 - D. Response Time Clock
 
-**Q155.** Which testing framework is used to test ServiceNow applications?
-- A. Selenium
-- B. Test Driven Framework (TDF)
-- C. Automated Test Framework (ATF)
-- D. JUnit
-
-**Q156.** Which ATF test step sets up a specific user profile for testing purposes?
-- A. Impersonation
-- B. Create a role
-- C. Create a user
-- D. Create a group
-
 **Q157.** Which script always executes on the server side?
 - A. Business Rule
 - B. UI Action
@@ -1168,8 +1156,6 @@ cites that page. See `SOURCES.md`.
 | Q152 | D | web+docs | **`gs.getUserID()`** — `api-reference/server-api-reference/c_GlideSystemScopedAPI.md`: "Scoped GlideSystem - getUserID() — Gets the sys_id of the current user." ⚠️ **Corrected: this bank previously keyed `gs.getUserSysID()` and called `getUserID()` a deprecated alternate. That was backwards — `getUserSysID()` does not exist at all.** The complete `getUser*` set is `getUser()`, `getUserDisplayName()`, `getUserID()`, `getUserName()` (global scope adds `getUserNameByUserID()`). Same trap as `gs.hasRoleExactly()`: a plausible-looking method name that was never real. `g_form` is client-side and has no such method either. |
 | Q153 | C | web | `gs.getUserDisplayName()` = first + last name. `gs.getUserName()` returns the **login** user name — the classic confusion. |
 | Q154 | C | web | Service Level Agreements. |
-| Q155 | C | web | Automated Test Framework. |
-| Q156 | A | web+docs | The **Impersonation** step — confirmed in `automated-test-framework-atf/atf-use-basic-form.md`, whose worked example opens with "Test step 1 - Impersonate". ⚠️ A site advertising "actual exam questions" keyed *Create a user*; it is wrong. Creating a user makes a record; impersonation is what runs the test *as* that user. |
 | Q157 | A | web | A Business Rule is always server-side. A **UI Action can be either** — the Client checkbox decides — which makes it the intended distractor. |
 | Q158 | B | web | A context is the **running instance** generated from a published workflow version. Distinguish: version = the design, context = the execution. |
 
@@ -1729,18 +1715,6 @@ cites that page. See `SOURCES.md`.
 
 ## Domain 1 — Designing and Creating an Application (Practice, set 3)
 
-**Q225.** When designing a form, what do you create to organise fields on the form?
-- A. Related lists
-- B. Tabs
-- C. Sections
-- D. Buttons
-
-**Q226.** What is the name of the string that displays the filter criteria on a list?
-- A. Breadcrumb
-- B. Choice
-- C. Menu
-- D. Topic
-
 **Q227.** On a form, which field type shows an icon that can be clicked to preview the associated record?
 - A. Reference
 - B. Lookup
@@ -1754,29 +1728,13 @@ cites that page. See `SOURCES.md`.
 - D. Incident
 - E. Project
 
-**Q229.** What is the ServiceNow Store?
-- A. The source for ServiceNow Community created developer content
-- B. A marketplace for free and paid certified ServiceNow applications and integrations
-- C. A downloadable ServiceNow script archive
-- D. An alternate name for the ServiceNow Developer Share site
-
-**Q230.** What is the best practice regarding the Default update set for moving customisations between instances?
-- A. Submit the Default update set to the application repository
-- B. You should not use the Default update set for moving between instances
-- C. Keep the Default update set to a maximum of 20 records for troubleshooting
-- D. Merge Default update sets before moving between instances
-
 ---
 ### Domain 1 — Practice set 3 Answers
 
 | Q | Answer | Src | Why |
 |---|--------|-----|-----|
-| Q225 | C | web | **Sections**. Tabs are how sections are *displayed*, but the thing you create is a section. |
-| Q226 | A | web | The **breadcrumb** shows and lets you unwind filter conditions. |
 | Q227 | A | web | **Reference** fields carry the preview (ⓘ) icon. "Lookup", "Quickview" and "Drilldown" are not field types. |
 | Q228 | A, C & D | web | Task, User (`sys_user`) and Incident ship with the platform. "Item" and "Project" are not baseline tables in this sense. |
-| Q229 | B | web | A **marketplace for certified apps and integrations**, free and paid. A/D describe **Share**, the community site — Store vs Share is the distinction being tested (see Q174). |
-| Q230 | B | web | **Never use the Default update set to move changes.** It is the catch-all for work done outside a named set; always create and select your own update set first. |
 
 ---
 
@@ -1794,12 +1752,6 @@ cites that page. See `SOURCES.md`.
 - C. Do not inherit the parent's fields
 - D. Inherit the parent's fields
 
-**Q233.** What do you install when you want to add applications or functionality within your development instance?
-- A. Patch
-- B. Update Pack
-- C. App Package
-- D. Plugin
-
 **Q234.** Which one of the following is NOT true for Modules?
 - A. Access to Modules is controlled with roles
 - B. Modules open content pages
@@ -1813,7 +1765,6 @@ cites that page. See `SOURCES.md`.
 |---|--------|-----|-----|
 | Q231 | C & D | web | Task is the **base** class of the task hierarchy and the **parent** of Incident, Problem, Change and so on. It is never a child — nothing sits above it. |
 | Q232 | D | web | Extension **inherits the parent's fields** — unconditionally, not "sometimes". Reinforces Q42/Q55. |
-| Q233 | D | web | A **Plugin**. ⚠️ The source keyed this as "Patch, Update Pack, App Package" — that is wrong, and a good example of why these keys need checking. Patches and update packs are *upgrade* artifacts; plugins are what you activate to add functionality. |
 | Q234 | C | web | A module need **not** be tied to a table — it can open a URL, a content page, or run a script. ⚠️ One source keyed D instead ("must be part of an Application Menu"), but modules do live under an application menu, so D is a true statement and cannot be the answer to a NOT question. |
 
 ---
@@ -2323,3 +2274,225 @@ cites that page. See `SOURCES.md`.
 | Q291 | A | v2 | Same doc: "The rich HTML format is the default for all new email notifications." |
 | Q292 | A | v2 | Same doc: "To avoid broken links, items like images and incidents, that are linked with URLs relative to an instance are converted to absolute links." |
 | Q293 | A | v2 | Same doc: "The system uses the subject line of the email notification and converts it to an SMS message." An administrator can override this with an alternate SMS message on the email template or notification form. |
+
+---
+
+## Domain 2 — Application User Interface (Reassigned)
+
+> These questions were filed under the wrong blueprint domain and have been moved here so
+> the exam simulation, which draws to blueprint weight by domain, samples them correctly.
+
+**Q155.** Which testing framework is used to test ServiceNow applications?
+- A. Selenium
+- B. Test Driven Framework (TDF)
+- C. Automated Test Framework (ATF)
+- D. JUnit
+
+**Q156.** Which ATF test step sets up a specific user profile for testing purposes?
+- A. Impersonation
+- B. Create a role
+- C. Create a user
+- D. Create a group
+
+**Q225.** When designing a form, what do you create to organise fields on the form?
+- A. Related lists
+- B. Tabs
+- C. Sections
+- D. Buttons
+
+**Q226.** What is the name of the string that displays the filter criteria on a list?
+- A. Breadcrumb
+- B. Choice
+- C. Menu
+- D. Topic
+
+---
+### Domain 2 — Reassigned, answers
+
+| Q | Answer | Src | Why |
+|---|--------|-----|-----|
+| Q155 | C | web | Automated Test Framework. |
+| Q156 | A | web+docs | The **Impersonation** step — confirmed in `automated-test-framework-atf/atf-use-basic-form.md`, whose worked example opens with "Test step 1 - Impersonate". ⚠️ A site advertising "actual exam questions" keyed *Create a user*; it is wrong. Creating a user makes a record; impersonation is what runs the test *as* that user. |
+| Q225 | C | web | **Sections**. Tabs are how sections are *displayed*, but the thing you create is a section. |
+| Q226 | A | web | The **breadcrumb** shows and lets you unwind filter conditions. |
+
+---
+
+## Domain 6 — Managing Applications (Reassigned)
+
+> These questions were filed under the wrong blueprint domain and have been moved here so
+> the exam simulation, which draws to blueprint weight by domain, samples them correctly.
+
+**Q229.** What is the ServiceNow Store?
+- A. The source for ServiceNow Community created developer content
+- B. A marketplace for free and paid certified ServiceNow applications and integrations
+- C. A downloadable ServiceNow script archive
+- D. An alternate name for the ServiceNow Developer Share site
+
+**Q230.** What is the best practice regarding the Default update set for moving customisations between instances?
+- A. Submit the Default update set to the application repository
+- B. You should not use the Default update set for moving between instances
+- C. Keep the Default update set to a maximum of 20 records for troubleshooting
+- D. Merge Default update sets before moving between instances
+
+**Q233.** What do you install when you want to add applications or functionality within your development instance?
+- A. Patch
+- B. Update Pack
+- C. App Package
+- D. Plugin
+
+---
+### Domain 6 — Reassigned, answers
+
+| Q | Answer | Src | Why |
+|---|--------|-----|-----|
+| Q229 | B | web | A **marketplace for certified apps and integrations**, free and paid. A/D describe **Share**, the community site — Store vs Share is the distinction being tested (see Q174). |
+| Q230 | B | web | **Never use the Default update set to move changes.** It is the catch-all for work done outside a named set; always create and select your own update set first. |
+| Q233 | D | web | A **Plugin**. ⚠️ The source keyed this as "Patch, Update Pack, App Package" — that is wrong, and a good example of why these keys need checking. Patches and update packs are *upgrade* artifacts; plugins are what you activate to add functionality. |
+
+---
+
+## Domain 1 — Designing and Creating an Application (Blueprint gap fill)
+
+> Covers "Determine if an application is a good fit with ServiceNow" — the blueprint's first bullet,
+> which the bank had barely tested. Written from `application-development/determining-good-candidates-for-apps.md`.
+
+**Q296.** Which three questions does ServiceNow tell you to ask before deciding to build a new application? *(Choose 3)*
+- A. Could you configure or customize an existing application instead?
+- B. How many people will use it, and how often?
+- C. Are you willing to maintain it as things change over time?
+- D. Does the process already exist in another vendor's product?
+- E. Can the application be built without any scripting?
+- F. Will the application need more than one table?
+
+**Q297.** A team can meet its requirement by customizing an out-of-the-box application. What does ServiceNow warn is the consequence of doing so?
+- A. Customizations are lost at every family release upgrade
+- B. Customizing can complicate upgrades, and you own the code you customize and are responsible for maintaining it
+- C. Customizing an out-of-the-box application is not permitted on a production instance
+- D. Customizations cannot be captured in an update set
+
+**Q298.** Which three are given as good reasons to build a new application rather than customize an existing one? *(Choose 3)*
+- A. A net-new process that does not fit neatly into any existing module
+- B. A use case that could be built by customizing an out-of-the-box app but does not align with that app's intent
+- C. A process that is unique or proprietary, or spans multiple departments
+- D. A requirement that involves more than five tables
+- E. A process that only administrators will ever use
+- F. A requirement to store data outside the ServiceNow platform
+
+**Q299.** Besides upgrade risk, which two consequences of building a custom application does the documentation tell you to factor in? *(Choose 2)*
+- A. Licensing and cost implications, which should be discussed with your admin
+- B. Customer service and tech support may not be able to support custom code, because they do not know the expected functionality
+- C. Custom applications cannot be published to the Application Repository
+- D. Custom applications are excluded from instance cloning
+
+**Q300.** A request comes in for an application that a handful of people would use once or twice a year, and which an existing application could already handle with minor configuration. Applying the documented guidance, what is the right call?
+- A. Build it as a scoped application, because scoping isolates it from everything else
+- B. Configure the existing application instead — the usage does not justify the build and maintenance effort
+- C. Build it in the global scope so it needs no cross-scope configuration
+- D. Build it, because configuring an existing application always breaks upgrades
+
+---
+### Domain 1 — Blueprint gap fill, answers
+
+| Q | Answer | Src | Why |
+|---|--------|-----|-----|
+| Q296 | A, B & C | v2 | `determining-good-candidates-for-apps.md` lists exactly these three: "Can you configure or customize an existing application instead of building a new one?", "How many people will the application serve, and how often would they use it? If not many people would use it frequently, is it worth the effort?", and "Are you willing to maintain the application as things change over time?" D, E and F are plausible engineering questions that the guidance never asks. |
+| Q297 | B | v2 | Same doc: "Configuring and customizing existing applications can lead to complications with upgrading to a new version of the ServiceNow AI Platform. **If you customize your applications, you own that code and are responsible for its upkeep.**" **Trap on A:** customizations are not *lost* on upgrade — that overstates it; the problem is the maintenance burden and upgrade friction you take on. |
+| Q298 | A, B & C | v2 | Same doc, under "Examples of when to create apps": **Net-new process** ("a new process that doesn't fit neatly into any of the existing modules"), **Misaligned intent** ("could be built by customizing an OOTB app. However, it doesn't align with the app intent"), and **Separate group workflow** ("unique, proprietary, or spans multiple departments"). Table count and audience are never the test. |
+| Q299 | A & B | v2 | Same doc: "Creating apps in ServiceNow can have **licensing and cost implications**. Talk with your admin", and "**Customer service and tech support may not be able to support custom code and applications because they don't know the expected functionality**." C and D are invented restrictions. |
+| Q300 | B | v2 | Same doc as Q296 (`determining-good-candidates-for-apps.md`). Two of its three screening questions point the same way here: an existing application can be configured, and the user base is small and infrequent — "If not many people would use it frequently, **is it worth the effort?**" **Trap on D:** the doc says customizing "can lead to complications with upgrading", not that it *always breaks* upgrades — an absolute where the source is a caution. |
+
+---
+
+## Domain 3 — Security and Restricting Access (Blueprint gap fill)
+
+> Covers "Restrict access to applications and application modules", which the bank tested only lightly.
+
+**Q301.** How is access to an application menu and its modules controlled?
+- A. Each carries a list of the roles required to view it
+- B. By an access control on the `sys_app_application` table
+- C. By the application's scope alone
+- D. By a UI policy on the navigator
+
+**Q302.** A user holds the role listed on a module, but not the role listed on the application menu above it. By default, can they see the module?
+- A. Yes — a module role always overrides the application menu
+- B. No — by default the user must have the roles on both the application menu and the module
+- C. Yes, but only if the module opens a list rather than a form
+- D. No, and there is no way to change this behaviour
+
+---
+### Domain 3 — Blueprint gap fill, answers
+
+| Q | Answer | Src | Why |
+|---|--------|-----|-----|
+| Q301 | A | v2 | `platform-security/access-control/r_ContextualSecurity.md`: "Applications and modules contain **lists of the roles required to view them**. For example, to view the System Definition application, the admin role is required. Security rights for applications and modules are still defined using **role arrays**." Note this is navigation-level visibility, not data security — the table's access controls still decide what the user can actually read (compare Q124). |
+| Q302 | B | v2 | Default behaviour requires **both**. `platform-administration/time-configuration/t_MakeATimelineVisibleToASelUser.md` describes the **Override application menu roles** check box as making the module "appear when the user has the specified roles. **Otherwise, the user must have the roles specified by both the application menu and the module.**" So D is wrong — that check box is exactly how you change it (Q125). |
+
+---
+
+## Domain 4 — Application Automation (Blueprint gap fill)
+
+> The blueprint bullet reads "Write, test, and debug **Workflow** and Flow Designer". The bank tested
+> Flow Designer heavily and legacy Workflow barely. Written from `build-workflows/legacy-workflow/`.
+
+**Q303.** Why must a legacy workflow be checked out before it can be edited?
+- A. So that changes apply only to the user who checked it out, while everyone else keeps using the published version
+- B. So that the workflow can be moved into a different application scope
+- C. So that the workflow's activities can be run in debug mode
+- D. So that the workflow can be attached to an update set
+
+**Q304.** How many users can have the same legacy workflow checked out at once?
+- A. One
+- B. Two — an editor and a reviewer
+- C. Any number, with changes merged on publish
+- D. Any number, but only the last publish is kept
+
+**Q305.** A new version of a workflow is published while several workflow contexts are still running. What happens to those running contexts?
+- A. They are cancelled and must be restarted
+- B. They immediately switch to the new version at their next activity
+- C. They continue on the version that was current when they started; the next run uses the new version
+- D. They pause until an administrator migrates them
+
+**Q306.** How is a legacy workflow's application scope determined?
+- A. It inherits the scope selected in the application picker when it is created, and cannot be changed in the Workflow Editor
+- B. It is set on the workflow's Properties tab and can be changed at any time
+- C. It always runs in the global scope
+- D. It inherits the scope of whichever record triggers it
+
+**Q307.** A privately scoped workflow calls out to common global resources such as approvals, events and SLA timers. What does the documentation say happens?
+- A. The calls succeed, because these resources are always accessible to all scopes
+- B. The calls fail — with an exception, or a hung activity waiting for results that never return
+- C. The workflow is automatically promoted to public scope
+- D. The calls succeed but are logged as cross-scope violations
+
+**Q308.** Which statement about custom activities and workflow scope is correct?
+- A. A custom activity always runs in the scope of the workflow that contains it
+- B. A custom activity runs in its own scope, which may differ from the workflow's
+- C. Custom activities cannot be used in a privately scoped workflow
+- D. Custom activities uploaded to the ServiceNow Store must be private
+
+**Q309.** A workflow runs on the Requested Item [sc_req_item] table. What is true of its stage field?
+- A. It is set automatically to the table's Stage field and cannot be changed
+- B. Any choice field on the table can be selected as the stage field
+- C. Stages are unavailable on Requested Item workflows
+- D. The stage field must be created manually before stages can be used
+
+**Q310.** What is the current status of legacy workflows relative to Workflow Studio?
+- A. Legacy workflows and Workflow Studio receive new features in parallel
+- B. Legacy workflow functionality has been replaced by Workflow Studio content, and only Workflow Studio receives new features and enhancements
+- C. Legacy workflows have been removed entirely and existing ones no longer run
+- D. Workflow Studio is a preview feature; legacy workflow remains the supported option
+
+---
+### Domain 4 — Blueprint gap fill, answers
+
+| Q | Answer | Src | Why |
+|---|--------|-----|-----|
+| Q303 | A | v2 | `build-workflows/legacy-workflow/c_WorkflowVersions.md`: "workflows must be checked out before they can be edited… When a workflow is checked out, **changes apply only to the user who has the workflow checked out. Other users can continue to use the published workflow.**" Check-out is about isolating edits, not scope, debugging or update sets. |
+| Q304 | A | v2 | Same doc: "**Only one user can check out a workflow at a time.**" |
+| Q305 | C | v2 | Same doc: "When a new version of an existing workflow is published, **the changes are not applied to running workflow contexts. Any currently running workflow context continues using the workflow version that was available when the workflow started. The next time the workflow runs, it uses the updated, published version.**" This is the version-vs-context distinction in its most testable form. |
+| Q306 | A | v2 | `c_WorkflowScope.md`: "When a workflow is created, it **inherits the application scope from the gear menu for the logged in user. This scope cannot be changed in the Workflow Editor.**" It then runs in that scope, and is callable from another application only if its accessibility permits all scopes. |
+| Q307 | B | v2 | Same doc: "any privately scoped workflows that make calls out to other scoped resources **fail with either an exception or a hung activity while waiting for returned results**", naming ECC queues, Tasks, Approvals, Events and SLA timers. The hung-activity failure mode is the nastier one — nothing errors, the workflow just stops advancing. |
+| Q308 | B | v2 | Same doc: "**Custom activities run in their own scope, even if it is different from that of the workflow.**" D is inverted — custom activities uploaded to the Store "must be configured as **accessible to all application scopes**". C is wrong too: private activities can be used inside a public workflow, and are protected in both directions. |
+| Q309 | A | v2 | `c_WorkflowStages.md`: "For workflows that use the Requested Item [sc_req_item] table, the stage field is **automatically set to the Stage field of the table and cannot be changed**." For other tables you choose the stage field in workflow properties, and only fields on that table are available — which is what makes B wrong as a general claim. |
+| Q310 | B | v2 | `c_WorkflowConcepts.md` states it directly: "All legacy workflow functionality has been **replaced by Workflow Studio content**… While all customers retain the ability to create legacy workflows, you are strongly encouraged to instead use Workflow Studio… **Only Workflow Studio will receive new features and enhancements.**" C overstates — existing legacy workflows still run, and customers who upgraded retain the ability to edit them. |
