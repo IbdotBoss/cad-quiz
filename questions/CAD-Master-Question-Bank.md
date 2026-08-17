@@ -1620,16 +1620,16 @@ cites that page. See `SOURCES.md`.
 | Q200 | C | web | Trigger = **when**. Q200/Q201 are a deliberate pair: trigger answers *when*, action answers *what*. Memorise the pairing, not the sentence. |
 | Q201 | D | web | Action = **what**. |
 | Q202 | C | web | Flow logic is the decision/branching structure (If, Else, For Each, Do Until). D describes annotations, not logic. |
-| Q203 | A, C & D | web | Record, Application, Schedule. "Notification-based" and "Condition-based" do not exist as trigger types — a condition is part of a *record* trigger, not a type of its own. |
+| Q203 | A, C & D | web+docs | Correct **among the options offered** — "Notification-based" and "Condition-based" are invented; a condition is part of a *record* trigger, not a type of its own. ⚠️ **But do not memorise "the three trigger types".** `build-workflows/workflow-studio/flow-triggers.md` documents **five** categories: **Record**, **REST** (needs an IntegrationHub Enterprise subscription), **Scheduled**, **Application**, and **Spoke** (webhooks from third-party systems). If an exam item offers REST or Spoke, they are real. |
 | Q204 | C | docs | **For every update** — "every time that the record is updated, regardless of whether there has already been or currently are any running contexts". The current four options are *For each unique change*, *Once*, *Only if not currently running*, *For every update*. ⚠️ **This replaces a broken question.** The mined version offered **Always**, which the docs say is the *previous-release name* for **Only if not currently running** — so two of its four options were the same thing under different names. If a stale exam item offers "Always", it means today's *Only if not currently running*. |
-| Q205 | B, C & E | web | Inputs, Outputs, Steps. **Transitions and Activities belong to legacy Workflow**, not Flow Designer — that is the trap in this item. |
+| Q205 | B, C & E | web+docs | **Inputs, Outputs, Steps.** `workflow-studio/actions.md`: "Create and edit actions by **defining inputs and adding action steps**", and publishing preserves "their current **action steps, variables, and sequence**". **Transitions and Activities belong to legacy Workflow** — the same page says "Workflow Studio replaces the Workflow Editor", which is exactly the trap. Two related facts: **Core actions cannot be viewed or edited** from the Workflow Studio interface, and **spoke actions are read-only but can be copied** and customised. |
 | Q206 | A | web | Outputs = the action's **results**. B describes inputs; D describes subflow outputs. |
 | Q207 | C | web | **Data pills** are generated to represent the action's runtime values. See Q129. |
-| Q208 | A | web | Inputs and outputs. Note `g_scratchpad` is a *form* mechanism (Q145) and has nothing to do with flows — D is the cross-topic trap. |
+| Q208 | A | web+docs | **Inputs and outputs** — the same mechanism `workflow-studio/actions.md` describes for actions, applied at subflow level. **Trap on D:** `g_scratchpad` is a *form* mechanism carrying server data to client scripts (Q145/Q289) and has nothing to do with flows. Cross-topic distractors like this are common — check the artifact the object actually belongs to. |
 | Q209 | B | web | Subflow **inputs** define what goes in at launch; subflow **outputs** define what comes back to the parent (which is option D, and the answer to Q206's distractor). |
-| Q210 | B & C | web | Inputs/outputs, and reusable action sequences callable from a flow, subflow, or script. |
-| Q211 | C | web | Flow execution details are **not** written to `syslog`; they go to the flow execution/context records. The other three all happen. |
-| Q212 | A & C | web | `admin` and `flow_designer`. `flow_operator` is read/run-only; `workflow_admin` belongs to legacy Workflow. |
+| Q210 | B & C | web | Inputs/outputs, and reusable action sequences callable from a flow, subflow, or script. The reusability point is the one worth holding: a subflow is the unit you build **once** and call from several places, which is the same argument as putting shared logic in a Script Include rather than duplicating it (Q288). |
+| Q211 | C | web+docs | **Execution details do not go to `syslog`** — they live on the **flow context record**. `workflow-studio/add-worknote-link.md` describes adding "a link to the current flow **context** record. Use the link to view the flow **execution details** of the current flow." ⚠️ The other three options use ADF course wording ("builds a process plan") that does not appear in the docs clone; the *answer* is settled, the distractors' phrasing is course-sourced. |
+| Q212 | A & C | web+docs | **`admin` and `flow_designer`**, named together in `workflow-studio/getting-started-dynamic-flow-get-flow-outputs.md`: "In the **Roles** field, enter `flow_designer` or `admin`". `workflow_admin` belongs to legacy Workflow. |
 | Q213 | A, B & C | web | Repository sharing, maintenance categorisation, and protection. D is false — scoping does not restrict access to Flow Designer as a tool. |
 | Q214 | D | web | Scheduled jobs are **server-side**; there is no such thing as scheduling a client-side script. Recurring server work (A, B, C) is exactly what they are for. |
 | Q215 | A | web | A table of every known Event, letting the system react when one is queued. C describes `gs.eventQueue()`; D describes the Event Log. |
@@ -2496,3 +2496,130 @@ cites that page. See `SOURCES.md`.
 | Q308 | B | v2 | Same doc: "**Custom activities run in their own scope, even if it is different from that of the workflow.**" D is inverted — custom activities uploaded to the Store "must be configured as **accessible to all application scopes**". C is wrong too: private activities can be used inside a public workflow, and are protected in both directions. |
 | Q309 | A | v2 | `c_WorkflowStages.md`: "For workflows that use the Requested Item [sc_req_item] table, the stage field is **automatically set to the Stage field of the table and cannot be changed**." For other tables you choose the stage field in workflow properties, and only fields on that table are available — which is what makes B wrong as a general claim. |
 | Q310 | B | v2 | `c_WorkflowConcepts.md` states it directly: "All legacy workflow functionality has been **replaced by Workflow Studio content**… While all customers retain the ability to create legacy workflows, you are strongly encouraged to instead use Workflow Studio… **Only Workflow Studio will receive new features and enhancements.**" C overstates — existing legacy workflows still run, and customers who upgraded retain the ability to edit them. |
+
+---
+
+## Domain 3 — Security and Restricting Access (Scenario and debugging)
+
+> Symptom-first items: you are given the behaviour and have to name the mechanism.
+> Every answer cites the documentation line that explains the symptom.
+
+**Q311.** A create ACL on a custom table has the condition `Priority is 1`. A user with the required role fills in Priority = 1 on the new-record form and submits, but is denied. The same user can create records when the condition is removed. What is happening?
+- A. Create ACLs are evaluated after the insert commits, so the condition sees the old value
+- B. Fields on a new record are treated as empty until the record is saved, so the condition evaluates false
+- C. Create ACLs ignore conditions and evaluate only roles
+- D. The Priority field needs a data policy to populate it before the ACL runs
+
+**Q312.** A Deny-Unless ACL on a table passes for a given user. No Allow-If ACL matches that table at all. What happens?
+- A. Access is denied, because an Allow-If ACL must explicitly permit access
+- B. Access is granted by default
+- C. The request is denied and written to the access log for review
+- D. The system falls back to the `*` table rule and re-evaluates
+
+**Q313.** A field-level ACL grants the `itil` role read on `mytable.description`. A user with `itil` still cannot see the field, and cannot see any other field on the table either. What is the most likely cause?
+- A. The field ACL needs to be marked active before it takes effect
+- B. The user is failing the table-level ACL, which denies every field regardless of field rules
+- C. Field ACLs require a matching data policy
+- D. The `description` field is protected by a script protection policy
+
+**Q314.** An administrator creates an `add_to_list` ACL to stop users selecting a sensitive column when building reports. Users can still pick the column. What has been missed?
+- A. The `glide.report.add_to_list_supported` property has not been enabled
+- B. The ACL needs a script as well as a role
+- C. `add_to_list` only applies to database views
+- D. Existing reports must be deleted before the ACL takes effect
+
+**Q315.** A vendor publishes an application containing a Script Include with the **Protected** script protection policy. What can a developer on the subscriber instance do with it?
+- A. View the script logic but not change it
+- B. Neither view nor change the script logic
+- C. Change the script, but changes are reverted on upgrade
+- D. View and change the script if they hold the `security_admin` role
+
+---
+### Domain 3 — Scenario and debugging, answers
+
+| Q | Answer | Src | Why |
+|---|--------|-----|-----|
+| Q311 | B | v2 | Straight from the operations table in `platform-security/access-control/exploring-access-control-list.md`: "A **create** ACL with a condition requiring that a field contain a specific value may evaluate as false. **Fields on new records are considered empty until the record is saved.**" This is why create ACLs should gate on **roles**, and field-value checks belong in a Business Rule where the values are actually bound. **Trap on A:** the ACL runs *before* the insert, not after. |
+| Q312 | B | v2 | `acl-denial-behavior.md` is explicit and counter-intuitive: "Even if a Deny-Unless ACL matches, access is only granted when an Allow-If ACL explicitly permits it. **If no Allow-If ACL is matched and the Deny-Unless ACL passes, the system grants access by default.**" So a passing Deny-Unless with nothing to contradict it lets the request through. Read the first sentence alone and you would pick A — the second sentence is the answer. |
+| Q313 | B | v2 | `acl-rule-types.md`: "**If a user fails a table ACL rule, the user is denied access to all fields in the table, even if the user passes a field ACL rule.**" A user must pass **both** the table rule and the field rule. Debugging order therefore runs table-first: a field-level grant is worthless while the table rule is failing. |
+| Q314 | A | v2 | `now-intelligence/reporting/column-view-access-control-list-reports.md`: "the **glide.report.add_to_list_supported** system property **enables** the add_to_list access control list." The property gates the whole mechanism and is off by default, so the ACL sits inert until it is switched on. Two further limits from the same page: it applies only to the report's **top-level table**, and **existing reports are unaffected** — which is why D is wrong as a fix. |
+| Q315 | B | v2 | `application-development/c_ScriptProtectionPolicy.md` sets out three policies: **None** ("allow other application developers to customize your script include"), **Read-only** ("see your script logic, but not change it"), and **Protected** ("prevent other application developers from changing your intellectual property"). The page frames the policy as governing "whether someone can **view or edit**", so Protected withholds both — A is the **Read-only** setting, which is the intended confusion. ⚠️ Some sources describe Protected as *encrypting* the source; the documentation does not use that word, so do not rely on the mechanism, only the outcome. |
+
+---
+
+## Domain 2 — Application User Interface (Scenario and debugging)
+
+**Q316.** A form takes several seconds to render. An onLoad client script queries a reference table with a client-side GlideRecord call and populates a field from the result. What is the correct diagnosis and fix?
+- A. Client-side GlideRecord does not exist; the script cannot be doing this
+- B. The query is valid but blocks rendering; move the lookup server-side and call it with GlideAjax
+- C. Replace the GlideRecord call with `gs.getReference()`
+- D. Convert the client script to a UI policy, which cannot query at all
+
+**Q317.** A UI policy makes a field mandatory when `Category` is `Hardware`. An administrator removes `Category` from the form layout to tidy the form, expecting the policy to stop firing. It still fires. Why?
+- A. The policy is cached and will stop after the cache clears
+- B. A UI policy condition evaluates all fields, whether or not they appear on the form
+- C. Removing a field from the layout also removes it from the table, so the condition errors open
+- D. UI policies re-read the layout only when the Run scripts option is on
+
+**Q318.** A UI policy makes a field mandatory on the form. Records created through an import set arrive with that field empty. What should the developer do?
+- A. Add an onSubmit client script to the same table
+- B. Convert the UI policy to a data policy, so the rule also applies to import sets and web services
+- C. Add the field to the import set table's transform map as mandatory
+- D. Nothing — UI policies already apply to imports
+
+---
+### Domain 2 — Scenario and debugging, answers
+
+| Q | Answer | Src | Why |
+|---|--------|-----|-----|
+| Q316 | B | v2 | **A is the trap, and it is the one this bank itself got wrong** (see Q97/Q294). `api-reference/api-client.md` lists "GlideRecord - Client", which "enables the use of **some** GlideRecord functionality in client-side scripts, such as client scripts and UI policy scripts" — so the script is legal. The problem is cost, not legality: a synchronous client query holds up rendering. The documented route to the server from a client script is **GlideAjax** with a client-callable Script Include (Q87). |
+| Q317 | B | v2 | `platform-administration/t_CreateAUIPolicy.md`: "A UI policy condition **evaluates all fields even if they are not visible on the form**. This function removes the requirement that a field must be on a form for it to be evaluated." Removing a field from the layout changes what is *displayed*, never what is *evaluated* — and never what exists on the table, which is why C is wrong twice over. |
+| Q318 | B | v2 | `t_ConvertAUIPolicyToADataPolicy.md`: "You can also apply a UI policy to **import sets or to data imported by SOAP web services** when you convert it to a data policy." A UI policy guards the form; a data policy guards the data whichever route it arrives by. Remember the two consequences: converting **deactivates the UI policy**, so tick **Use as UI Policy on client** to keep it working on the form, and conversion requires Run scripts off, Global on, and Visible set to Leave Alone. |
+
+---
+
+## Domain 4 — Application Automation (Scenario and debugging)
+
+**Q319.** A privately scoped legacy workflow reaches an Approval activity and simply stops. No error appears, the context stays open, and the approval is never generated. What is the most likely cause?
+- A. The approval activity requires the `approver_user` role on the workflow
+- B. A privately scoped workflow calling a common global resource such as approvals fails, either with an exception or a hung activity
+- C. The workflow was published while the context was running, orphaning it
+- D. Approval activities are unsupported in legacy workflow and must use Flow Designer
+
+**Q320.** A developer publishes a corrected version of a workflow. Records whose workflow contexts were already running continue to behave the old way. Is this a defect?
+- A. Yes — publishing should update all contexts, so the publish did not complete
+- B. No — running contexts continue on the version that was current when they started; the next run uses the new version
+- C. Yes — the old version should have been deactivated before publishing
+- D. No — but only because the workflow was checked out at the time
+
+**Q321.** After adding an `after` Business Rule that ends with `current.update()`, users report duplicate notification emails and the instance logs show the rule running repeatedly on the same record. What is the cause?
+- A. The notification's Weight field is set to zero
+- B. `current.update()` in a Business Rule triggers an additional database operation, which can cause duplicate notifications and recursive loops
+- C. An `after` rule cannot modify the current record, so the platform retries it
+- D. The rule is missing a condition, so it runs on query as well
+
+---
+### Domain 4 — Scenario and debugging, answers
+
+| Q | Answer | Src | Why |
+|---|--------|-----|-----|
+| Q319 | B | v2 | `build-workflows/legacy-workflow/c_WorkflowScope.md`: "any privately scoped workflows that make calls out to other scoped resources **fail with either an exception or a hung activity while waiting for returned results**", listing **ECC queues, Tasks, Approvals, Events and SLA timers**. The hung-activity variant is the nastier symptom precisely because nothing errors — the context just stops advancing, which is what this scenario describes. |
+| Q320 | B | v2 | Documented behaviour, not a defect. `c_WorkflowVersions.md`: "the changes are **not applied to running workflow contexts**. Any currently running workflow context continues using the workflow version that was available when the workflow started. **The next time the workflow runs, it uses the updated, published version.**" This is the version-vs-context distinction with real consequences — a fix does not reach work already in flight. |
+| Q321 | B | v2 | `api-reference/business-rules-classic/c_BusinessRules.md` states both the rule and the symptom: "**current.update() should not be used in any Business Rules.** Using current.update() triggers an additional database operation, which could cause **duplicate notifications, recursive loops**, etc." In a *before* rule you simply set the field and the platform saves it once; in an *after* rule, prefer a targeted GlideRecord update on the related record rather than re-saving `current`. |
+
+---
+
+## Domain 1 — Designing and Creating an Application (Scenario and debugging)
+
+**Q322.** A developer creates several application files over an afternoon and later finds some belong to the wrong application. What is the most likely explanation, and what visual cue would have warned them?
+- A. The files were created in the wrong update set; the update set name in the status bar would have shown it
+- B. The application picker was set to a different scope; a non-Global scope shows the picker icon with a red ring
+- C. The files were created before the application record was saved; no cue is available
+- D. Delegated development moved the files automatically; the Manage Developers list would have shown it
+
+---
+### Domain 1 — Scenario and debugging, answers
+
+| Q | Answer | Src | Why |
+|---|--------|-----|-----|
+| Q322 | B | v2 | `c_ApplicationContext.md`: "When application developers create new records, the system **automatically assigns the records to the currently selected application in the application picker**." And `c_ApplicationPicker.md` gives the cue: "When your application scope is set to a **non-Global scope**, the picker icon displays with a **red ring**." **Trap on A:** the update set is also shown in the Studio status bar and is also easy to get wrong — but an update set controls what is *captured for migration*, not which application a file *belongs to*. Two different mistakes with two different symptoms. |
